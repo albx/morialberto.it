@@ -1,0 +1,21 @@
+{{ define "main" }}
+<div class="container-fluid p-0">
+    <article class="p-3 p-lg-5 d-flex align-items-center article">
+        <div class="w-100">
+            <h2 class="mb-2 article-title">{{ .Title }}</h2>
+            <h4 class="mb-5 article-date">pubblicato il {{ .PublishDate.Format "02/01/2006" }}</h4>
+            <div class="article-content">{{ .Content }}</div>
+            <div class="article-comments">
+                <div class="fb-comments" data-href="{{ .Permalink }}" data-width="100%" data-numposts="10"></div>
+            </div>
+        </div>
+    </article>
+    <div class="p-3 d-flex align-items-center">
+        <div class="w-100">
+            <div class="col-md-12 text-right">
+                <a href="/blog">Torna al blog</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

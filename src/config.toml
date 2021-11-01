@@ -1,0 +1,4 @@
+baseURL = "http://www.morialberto.it/"
+languageCode = "it"
+title = "Alberto Mori - Personal Website"
+theme = "morialberto"
