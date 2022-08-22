@@ -1,0 +1,12 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "morialberto.it": {
+      "appLocation": "src",
+      "outputLocation": "public",
+      "appBuildCommand": "hugo -D",
+      "run": "hugo server -D",
+      "appDevserverUrl": "http://localhost:1313"
+    }
+  }
+}
