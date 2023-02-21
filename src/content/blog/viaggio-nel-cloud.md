@@ -1,5 +1,5 @@
 ---
-title: "Viaggio Nel Cloud"
+title: "Viaggio nel Cloud"
 date: 2023-02-21T21:48:11+01:00
 publishDate: 2023-02-23T00:00:00+01:00
 draft: false
