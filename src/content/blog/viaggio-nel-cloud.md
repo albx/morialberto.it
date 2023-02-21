@@ -21,7 +21,7 @@ L’attuale versione utilizza [Hugo](https://gohugo.io/) come motore di generazi
 ### E venne il giorno di Azure Static Web Apps
 Ho scoperto [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/overview) come servizio di Azure nel 2021 e devo ammettere che le feature che offriva *out-of-the-box* mi hanno incuriosito fin da subito. 
 
-Provando a descrivere cosa sia in poche parole si tratta di un servizio offerto da Microsoft Azure che permette di ospitare un contenuto statico in modo globalmente distribuito. Il deploy del codice viene fatto in modo automatico tramite GitHub Action o Pipeline di Azure DevOps a seconda di dove ospitate il vostro codice sorgente (per l’appunto GitHub piuttosto che Azure DevOps).
+Provando a descrivere cosa sia in poche parole: si tratta di un servizio offerto da Microsoft Azure che permette di ospitare un contenuto statico in modo globalmente distribuito. Il deploy del codice viene fatto in modo automatico tramite GitHub Action o Pipeline di Azure DevOps a seconda di dove ospitate il vostro codice sorgente (per l’appunto GitHub piuttosto che Azure DevOps).
 
 Il file che definisce il flusso di pubblicazione viene inoltre creato da Azure stesso nel momento in cui faccio il provisioning della risorsa, dandogli le informazioni di dove si trova il codice sorgente, su quale branch rimanere in ascolto e le cartelle dove andare a recuperare l’applicazione.
 
@@ -32,7 +32,7 @@ Detto questo se vi ho incuriosito e volete approfondire l’argomento, vi lascio
 ### Porting del sito
 La decisione di portare anche questo sito su Azure Static Web Apps è stata dettata prima di tutto da fattori economici. Il prezzo dell’hosting originale è salito praticamente del doppio, mentre portandolo su Azure Static Web Apps ho potuto usufruire del piano gratuito, azzerando i costi, il che non è per niente male.
 
-Al di là di questo, il fatto di avere una procedura automatica di pubblicazione dei contenuti è stato l’altro punto vincente. Prima il “deploy” (sì è volutamente tra virgolette) era un processo manuale di trasferimento dei file via FTP. Sì è vero, il codice sorgente era su Azure DevOps e avrei potuto cercare di capire se esistesse un modo per caricare in modo automatico dei file via FTP tramite una pipeline, ma vogliamo mettere la comodità avere un flusso generato da un altro che fa il lavoro sporco per te e che soprattutto funziona meglio di quanto avrei potuto fare io?!
+Al di là di questo, il fatto di avere una procedura automatica di pubblicazione dei contenuti è stato l’altro punto vincente. Prima il “deploy” (sì, è volutamente tra virgolette) era un processo manuale di trasferimento dei file via FTP. Sì è vero, il codice sorgente era su Azure DevOps e avrei potuto cercare di capire se esistesse un modo per caricare in modo automatico dei file via FTP tramite una pipeline, ma vogliamo mettere la comodità avere un flusso generato da un altro che fa il lavoro sporco per te e che soprattutto funziona meglio di quanto avrei potuto fare io?!
 
 Altra cosa: il fatto di avere poi deciso di mettere il codice sorgente pubblico su GitHub permette a chi volesse di darmi feedback, segnalarmi problemi o proporre eventuali articoli di poterlo fare in modo agevole e veloce (basta aprire una issue [qui](https://github.com/albx/morialberto.it/issues)).
 
