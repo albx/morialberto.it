@@ -2,7 +2,7 @@
 
 namespace MoriAlberto.Widgets.Models;
 
-public record PostRating
+public record RatePostModel
 {
     [Required]
     public string PostUrl { get; init; } = string.Empty;
@@ -13,6 +13,6 @@ public record PostRating
     public enum RateAction
     {
         Like,
-        Unlike
+        Dislike
     }
 }

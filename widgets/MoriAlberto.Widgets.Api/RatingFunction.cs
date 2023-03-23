@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -19,16 +20,17 @@ namespace MoriAlberto.Widgets.Api
             Service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
-        [Function("Rating")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "post")] HttpRequestData req)
+        [Function(nameof(RatePost))]
+        public async Task<HttpResponseData> RatePost(
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "rate")] HttpRequestData req)
         {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-
-            var model = await req.ReadFromJsonAsync<PostRating>();
+            var model = await req.ReadFromJsonAsync<RatePostModel>();
             if (model is null)
             {
                 return req.CreateResponse(HttpStatusCode.BadRequest);
             }
+
+            _logger.LogInformation("Rate post {PostUrl}: {RateAction}", model.PostUrl, model.Action);
 
             try
             {
@@ -44,6 +46,21 @@ namespace MoriAlberto.Widgets.Api
                 _logger.LogError(ex, "Error rating post {PostUrl}: {ErrorMessage}", model.PostUrl, ex.Message);
                 return req.CreateResponse(HttpStatusCode.InternalServerError);
             }
+        }
+
+        [Function(nameof(GetPostRatings))]
+        public async Task<HttpResponseData> GetPostRatings(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ratings")] HttpRequestData req)
+        {
+            var query = QueryHelpers.ParseQuery(req.Url.Query);
+            var postUrl = query["post"].ToString();
+
+            var ratings = Service.GetPostRatings(postUrl);
+
+            var response = req.CreateResponse();
+            await response.WriteAsJsonAsync(ratings);
+
+            return response;
         }
     }
 }

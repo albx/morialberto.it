@@ -1,15 +1,25 @@
-﻿<div class="row align-items-center">
+﻿@inject IRatingService Service
+
+<div class="row align-items-center">
     <div class="col-md-auto">
         Ti è piaciuto questo post?
     </div>
     <div class="col-md-auto">
-        <button type="button" class="btn btn-lg unlike-btn">
+        <button type="button" class="btn btn-lg unlike-btn" @onclick="LikePostAsync">
             <i class="far fa-thumbs-up"></i>
+            @if (ratings.NumberOfLikes > 0)
+            {
+                <span>@ratings.NumberOfLikes</span>
+            }
         </button>
     </div>
     <div class="col-md-auto">
-        <button type="button" class="btn btn-lg unlike-btn">
+        <button type="button" class="btn btn-lg unlike-btn" @onclick="DislikePostAsync">
             <i class="far fa-thumbs-down"></i>
+            @if (ratings.NumberOfDislikes > 0)
+            {
+                <span>@ratings.NumberOfDislikes</span>
+            }
         </button>
     </div>
 </div>
@@ -18,4 +28,25 @@
     [Parameter]
     [EditorRequired]
     public string Page { get; set; } = string.Empty;
+
+    private PostRatingsModel ratings = new PostRatingsModel(0, 0);
+
+    private async Task LikePostAsync()
+    {
+        await Service.LikePostAsync(Page);
+        await LoadRatings();
+    }
+
+    private async Task DislikePostAsync()
+    {
+        await Service.DislikePostAsync(Page);
+        await LoadRatings();
+    }
+
+    private async Task LoadRatings() => ratings = await Service.GetPostRatingsAsync(Page);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRatings();
+    }
 }
