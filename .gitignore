@@ -1,5 +1,5 @@
 # Hugo
 src/public
 src/.hugo_build.lock
-src/themes/**/_content
-src/themes/**/_framework
+src/**/_content
+src/**/_framework

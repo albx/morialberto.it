@@ -7,9 +7,9 @@ var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
     .ConfigureServices((ctx, services) =>
     {
-        services.Configure<StorageConfigurationOptions>(options =>
+        services.Configure<KittConfigurationOptions>(options =>
         {
-            options.ConnectionString = ctx.Configuration["StorageConnectionString"];
+            options.ConnectionString = ctx.Configuration["KittConnectionString"];
         });
 
         services.AddScoped<RateService>();

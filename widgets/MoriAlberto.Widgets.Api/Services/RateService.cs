@@ -1,75 +1,112 @@
-﻿using Azure.Data.Tables;
+﻿using Dapper;
 using Microsoft.Extensions.Options;
 using MoriAlberto.Widgets.Api.Configuration;
+using MoriAlberto.Widgets.Api.Model;
 using MoriAlberto.Widgets.Models;
+using System.Data.SqlClient;
 
 namespace MoriAlberto.Widgets.Api.Services;
 
 public class RateService
 {
-    private readonly TableClient _tableClient;
+    private readonly KittConfigurationOptions _databaseConfiguration;
 
-    private readonly StorageConfigurationOptions _storageConfiguration;
-
-    public RateService(IOptions<StorageConfigurationOptions> storageConfigurationOptions)
+    public RateService(IOptions<KittConfigurationOptions> databaseConfigurationOptions)
     {
-        _storageConfiguration = storageConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(storageConfigurationOptions));
-
-        _tableClient = new TableClient(_storageConfiguration.ConnectionString, "Ratings");
-        _tableClient.CreateIfNotExists();
+        _databaseConfiguration = databaseConfigurationOptions?.Value ?? throw new ArgumentNullException(nameof(databaseConfigurationOptions));
     }
 
     public async Task RatePostAsync(RatePostModel model)
     {
         try
         {
-            var rate = _tableClient.Query<TableEntity>(e => e.RowKey == model.PostUrl).FirstOrDefault();
-            if (rate is null)
-            {
-                rate = new TableEntity(model.PostUrl, model.PostUrl)
-                {
-                    ["Like"] = 0,
-                    ["Dislike"] = 0
-                };
-            }
+            using var connection = new SqlConnection(_databaseConfiguration.ConnectionString);
+            connection.Open();
 
-            switch (model.Action)
+            var rating = await GetRatingByPageUrlAsync(model.PostUrl, connection);
+            if (rating is null)
             {
-                case RatePostModel.RateAction.Like:
-                    rate["Like"] = Convert.ToInt32(rate["Like"]) + 1;
-                    break;
-                case RatePostModel.RateAction.Dislike:
-                    rate["Dislike"] = Convert.ToInt32(rate["Dislike"]) + 1;
-                    break;
-                default:
-                    break;
+                await AddRatingAsync(model, connection);
             }
-
-            await _tableClient.UpsertEntityAsync(rate);
+            else
+            {
+                await UpdateRatingAsync(model, rating, connection);
+            }
         }
         catch
         {
             throw;
         }
-
     }
 
-    public PostRatingsModel GetPostRatings(string postUrl)
+    public async Task<PostRatingsModel> GetPostRatingsAsync(string postUrl)
     {
         try
         {
-            var rate = _tableClient.Query<TableEntity>(e => e.RowKey == postUrl).FirstOrDefault();
-            if (rate is null)
+            using var connection = new SqlConnection(_databaseConfiguration.ConnectionString);
+            connection.Open();
+
+            var rating = await GetRatingByPageUrlAsync(postUrl, connection);
+            if (rating is null)
             {
                 return new PostRatingsModel(0, 0);
             }
 
-            return new PostRatingsModel(Convert.ToInt32(rate["Like"]), Convert.ToInt32(rate["Dislike"]));
+            return new PostRatingsModel(rating.NumberOfLikes, rating.NumberOfDislikes);
         }
         catch
         {
             return new PostRatingsModel(0, 0);
         }
+    }
 
+    private async Task<Rating> GetRatingByPageUrlAsync(string pageUrl, SqlConnection connection)
+    {
+        var sql = "SELECT Id, Website, PageUrl, NumberOfLikes, NumberOfDislikes FROM KITT_Ratings WHERE Website=@website AND PageUrl=@pageUrl";
+
+        var rating = await connection.QueryFirstOrDefaultAsync<Rating>(
+            sql,
+            new { website = "morialberto.it", pageUrl = pageUrl });
+
+        return rating;
+    }
+
+    private async Task AddRatingAsync(RatePostModel model, SqlConnection connection)
+    {
+        var rating = new Rating
+        {
+            Id = Guid.NewGuid(),
+            PageUrl = model.PostUrl,
+            Website = "morialberto.it",
+            NumberOfLikes = model.Action == RatePostModel.RateAction.Like ? 1 : 0,
+            NumberOfDislikes = model.Action == RatePostModel.RateAction.Dislike ? 1 : 0
+        };
+
+        var sql = "INSERT INTO KITT_Ratings(Id, Website, PageUrl, NumberOfLikes, NumberOfDislikes) VALUES(@Id, @Website, @PageUrl, @NumberOfLikes, @NumberOfDislikes)";
+        await connection.ExecuteAsync(sql, rating);
+    }
+
+    private async Task UpdateRatingAsync(RatePostModel model, Rating rating, SqlConnection connection)
+    {
+        var id = rating.Id;
+        var numberOfLikes = rating.NumberOfLikes;
+        var numberOfDislikes = rating.NumberOfDislikes;
+
+        switch (model.Action)
+        {
+            case RatePostModel.RateAction.Like:
+                numberOfLikes++;
+                break;
+            case RatePostModel.RateAction.Dislike:
+                numberOfDislikes++;
+                break;
+            default:
+                break;
+        }
+
+        var sql = "UPDATE KITT_Ratings SET NumberOfLikes=@numberOfLikes, NumberOfDislikes=@numberOfDislikes WHERE Id=@id";
+        await connection.ExecuteAsync(
+            sql,
+            new { numberOfLikes, numberOfDislikes, id });
     }
 }

@@ -5,20 +5,20 @@
         Ti è piaciuto questo post?
     </div>
     <div class="col-md-auto">
-        <button type="button" class="btn btn-lg unlike-btn" @onclick="LikePostAsync">
+        <button type="button" class="btn btn-lg unlike-btn" aria-label="Mi piace" @onclick="LikePostAsync">
             <i class="far fa-thumbs-up"></i>
-            @if (ratings.NumberOfLikes > 0)
+            @if (numberOfLikes > 0)
             {
-                <span>@ratings.NumberOfLikes</span>
+                <span class="badge badge-light">@numberOfLikes</span>
             }
         </button>
     </div>
     <div class="col-md-auto">
-        <button type="button" class="btn btn-lg unlike-btn" @onclick="DislikePostAsync">
+        <button type="button" class="btn btn-lg unlike-btn" aria-label="Non mi piace" @onclick="DislikePostAsync">
             <i class="far fa-thumbs-down"></i>
-            @if (ratings.NumberOfDislikes > 0)
+            @if (numberOfDislikes > 0)
             {
-                <span>@ratings.NumberOfDislikes</span>
+                <span class="badge badge-light">@numberOfDislikes</span>
             }
         </button>
     </div>
@@ -31,22 +31,29 @@
 
     private PostRatingsModel ratings = new PostRatingsModel(0, 0);
 
+    private int numberOfLikes = 0;
+
+    private int numberOfDislikes = 0;
+
     private async Task LikePostAsync()
     {
         await Service.LikePostAsync(Page);
-        await LoadRatings();
+        numberOfLikes++;
     }
 
     private async Task DislikePostAsync()
     {
         await Service.DislikePostAsync(Page);
-        await LoadRatings();
+        numberOfDislikes++;
     }
-
-    private async Task LoadRatings() => ratings = await Service.GetPostRatingsAsync(Page);
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadRatings();
+        ratings = await Service.GetPostRatingsAsync(Page);
+        if (ratings is not null)
+        {
+            numberOfLikes = ratings.NumberOfLikes;
+            numberOfDislikes = ratings.NumberOfDislikes;
+        }
     }
 }
