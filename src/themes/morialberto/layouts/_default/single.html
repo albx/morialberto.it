@@ -5,18 +5,14 @@
             <h2 class="mb-2 article-title">{{ .Title }}</h2>
             <h4 class="mb-5 article-date">pubblicato il {{ .PublishDate.Format "02/01/2006" }}</h4>
             <div class="article-content">{{ .Content }}</div>
+            <div class="article-rating">
+                <post-rating page="{{ .Permalink | relURL }}"></post-rating>
+            </div>
             <div class="article-comments">
                 {{ template "_internal/disqus.html" . }}
             </div>
         </div>
     </article>
-    <div class="p-3 flex align-items-center">
-        <div class="w-100">
-            <div class="col-md-12 text-left">
-                <post-rating page="{{ .Permalink | relURL }}"></post-rating>
-            </div>
-        </div>
-    </div>
     <div class="p-3 d-flex align-items-center">
         <div class="w-100">
             <div class="col-md-12 text-left">
