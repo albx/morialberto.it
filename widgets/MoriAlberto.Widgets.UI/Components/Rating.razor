@@ -1,0 +1,59 @@
+﻿@inject IRatingService Service
+
+<div class="row align-items-center">
+    <div class="col-md-auto">
+        Ti è piaciuto questo post?
+    </div>
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-lg unlike-btn" aria-label="Mi piace" @onclick="LikePostAsync">
+            <i class="far fa-thumbs-up"></i>
+            @if (numberOfLikes > 0)
+            {
+                <span class="badge badge-light">@numberOfLikes</span>
+            }
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-lg unlike-btn" aria-label="Non mi piace" @onclick="DislikePostAsync">
+            <i class="far fa-thumbs-down"></i>
+            @if (numberOfDislikes > 0)
+            {
+                <span class="badge badge-light">@numberOfDislikes</span>
+            }
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public string Page { get; set; } = string.Empty;
+
+    private PostRatingsModel ratings = new PostRatingsModel(0, 0);
+
+    private int numberOfLikes = 0;
+
+    private int numberOfDislikes = 0;
+
+    private async Task LikePostAsync()
+    {
+        await Service.LikePostAsync(Page);
+        numberOfLikes++;
+    }
+
+    private async Task DislikePostAsync()
+    {
+        await Service.DislikePostAsync(Page);
+        numberOfDislikes++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ratings = await Service.GetPostRatingsAsync(Page);
+        if (ratings is not null)
+        {
+            numberOfLikes = ratings.NumberOfLikes;
+            numberOfDislikes = ratings.NumberOfDislikes;
+        }
+    }
+}

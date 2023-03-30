@@ -3,6 +3,8 @@
   "configurations": {
     "morialberto.it": {
       "appLocation": "src",
+      "apiLocation": "widgets/MoriAlberto.Widgets.Api",
+      "apiPort": 7103,
       "outputLocation": "public",
       "appBuildCommand": "hugo -D",
       "run": "hugo server -D",
