@@ -9,10 +9,37 @@ on:
     branches:
       - main
 
+env:
+  DOTNET_VERSION: 7.0.x
+  WIDGETS_DIRECTORY: ./widgets/MoriAlberto.Widgets.UI
+  PUBLISH_DIRECTORY: ./widgets/MoriAlberto.Widgets.UI/bin/Release/published
+  STATICFILES_DIRECTORY: ./src/themes/morialberto/static/
+
 jobs:
+  build_custom_elements:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build Custom Elements
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Restore widgets project
+        run: dotnet restore ${{ env.WIDGETS_DIRECTORY }}
+      - name: Build widgets project
+        run: dotnet build ${{ env.WIDGETS_DIRECTORY }} -c Release --no-restore
+      - name: Publish widgets project
+        run: dotnet publish ${{ env.WIDGETS_DIRECTORY }} -c Release --no-build -o ${{ env.PUBLISH_DIRECTORY }} 
+      - name: Copy Blazor directories
+        run: |
+          cp -r ${{ env.PUBLISH_DIRECTORY }}/wwwroot/_framework ${{ env.STATICFILES_DIRECTORY }}
+          cp -r ${{ env.PUBLISH_DIRECTORY }}/wwwroot/_content ${{ env.STATICFILES_DIRECTORY }}
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
+    needs: build_custom_elements
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v2
@@ -28,7 +55,7 @@ jobs:
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/src" # App source code path
-          api_location: "" # Api source code path - optional
+          api_location: "/widgets/MoriAlberto.Widgets.Api" # Api source code path - optional
           output_location: "public" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
