@@ -1,4 +1,4 @@
-baseURL = "http://www.morialberto.it/"
+baseURL = "https://www.morialberto.it/"
 languageCode = "it"
 title = "Alberto Mori - Personal Website"
 theme = "morialberto"
