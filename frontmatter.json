@@ -4,8 +4,8 @@
   "frontMatter.content.publicFolder": "static",
   "frontMatter.content.pageFolders": [
     {
-      "title": "src",
-      "path": "./src"
+      "title": "website",
+      "path": "[[workspace]]/src"
     }
   ]
 }
