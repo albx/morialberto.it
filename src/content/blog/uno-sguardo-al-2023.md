@@ -2,7 +2,7 @@
 title: Uno sguardo al 2023
 date: 2024-01-02T00:00:00+00:00
 publishDate: 2024-01-02T00:00:00+00:00
-draft: true
+draft: false
 description: Il 2023 è finito da poco ed è giunto il momento in cui ho bisogno di fermarmi, guardarmi indietro e fare un punto dell’anno passato e gettare gli obiettivi per il 2024.
 keywords:
   - blog
