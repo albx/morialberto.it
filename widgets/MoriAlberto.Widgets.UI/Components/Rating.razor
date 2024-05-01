@@ -37,14 +37,14 @@
 
     private async Task LikePostAsync()
     {
-        await Service.LikePostAsync(Page);
         numberOfLikes++;
+        await Service.LikePostAsync(Page);
     }
 
     private async Task DislikePostAsync()
     {
-        await Service.DislikePostAsync(Page);
         numberOfDislikes++;
+        await Service.DislikePostAsync(Page);
     }
 
     protected override async Task OnInitializedAsync()
