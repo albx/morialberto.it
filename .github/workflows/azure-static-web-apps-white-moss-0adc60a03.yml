@@ -10,7 +10,7 @@ on:
       - main
 
 env:
-  DOTNET_VERSION: 7.0.x
+  DOTNET_VERSION: 8.x
   WIDGETS_DIRECTORY: ./widgets/MoriAlberto.Widgets.UI
   PUBLISH_DIRECTORY: ./widgets/MoriAlberto.Widgets.UI/bin/Release/published
   STATICFILES_DIRECTORY: ./src/themes/morialberto/static/

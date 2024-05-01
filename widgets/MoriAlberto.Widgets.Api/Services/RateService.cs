@@ -60,7 +60,7 @@ public class RateService
         }
     }
 
-    private async Task<Rating> GetRatingByPageUrlAsync(string pageUrl, SqlConnection connection)
+    private async Task<Rating?> GetRatingByPageUrlAsync(string pageUrl, SqlConnection connection)
     {
         var sql = "SELECT Id, Website, PageUrl, NumberOfLikes, NumberOfDislikes FROM KITT_Ratings WHERE Website=@website AND PageUrl=@pageUrl";
 
