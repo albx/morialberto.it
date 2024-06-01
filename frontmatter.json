@@ -7,5 +7,6 @@
       "title": "website",
       "path": "[[workspace]]/src"
     }
-  ]
+  ],
+  "frontMatter.framework.startCommand": "hugo server -D"
 }
