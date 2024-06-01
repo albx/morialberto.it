@@ -1,7 +1,7 @@
 ---
 title: "There is no silver bullet - CQS E CQRS"
 date: 2024-06-01T00:00:00+02:00
-draft: true
+draft: false
 keywords:
     - CQS
     - CQRS
