@@ -1,7 +1,7 @@
 ---
 title: "2024: un altro anno è passato"
 date: 2025-01-02T00:00:00.000Z
-draft: true
+draft: false
 keywords:
     - "2024"
     - blog
