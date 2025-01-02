@@ -39,6 +39,6 @@ L'obiettivo principe è sempre quello di continuare a contribuire alla community
 
 Tutto questo però dovrà fare i conti con il fatto che dovrò riuscire ad organizzare il mio tempo per evitare il più possibile di togliere momenti alla mia famiglia.
 
-Ho tanti progetti in testa per il prossimo anno ma, un po' per scaramanzia, un po' perché molto dipenderà da quanto effort mi richiederanno, non è il momento di parlarne. Quindi *stay tuned* se volete sapere cosa bollirà in pentola 😉
+Ho tanti progetti in testa per il 2025 ma, un po' per scaramanzia, un po' perché molto dipenderà da quanto effort mi richiederanno, non è il momento di parlarne. Quindi *stay tuned* se volete sapere cosa bollirà in pentola 😉
 
 **Non mi resta che augurare a tutti un buon 2025! A presto!**
