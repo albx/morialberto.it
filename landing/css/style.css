@@ -1,0 +1,354 @@
+/* ── Theme Variables ─────────────────────────────────────────── */
+:root {
+  --bg: #f7f5f0;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --subtext: #666666;
+  --accent: #b8860b;
+  --accent-glow: rgba(184, 134, 11, 0.25);
+  --icon-fill: #444444;
+  --toggle-bg: #e0dbd0;
+  --avatar-ring: #b8860b;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+    --card-bg: #1e1e1e;
+    --text: #f0f0f0;
+    --subtext: #999999;
+    --accent: #e8a838;
+    --accent-glow: rgba(232, 168, 56, 0.3);
+    --icon-fill: #cccccc;
+    --toggle-bg: #2a2a2a;
+    --avatar-ring: #e8a838;
+    --shadow: rgba(0, 0, 0, 0.4);
+  }
+}
+
+[data-theme="light"] {
+  --bg: #f7f5f0;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --subtext: #666666;
+  --accent: #b8860b;
+  --accent-glow: rgba(184, 134, 11, 0.25);
+  --icon-fill: #444444;
+  --toggle-bg: #e0dbd0;
+  --avatar-ring: #b8860b;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --bg: #111111;
+  --card-bg: #1e1e1e;
+  --text: #f0f0f0;
+  --subtext: #999999;
+  --accent: #e8a838;
+  --accent-glow: rgba(232, 168, 56, 0.3);
+  --icon-fill: #cccccc;
+  --toggle-bg: #2a2a2a;
+  --avatar-ring: #e8a838;
+  --shadow: rgba(0, 0, 0, 0.4);
+}
+
+/* ── Reset & Base ────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 18px;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Page Layout ─────────────────────────────────────────────── */
+.page-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 1.5rem;
+  width: 100%;
+  max-width: 1020px;
+}
+
+/* ── Theme Toggle ────────────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--toggle-bg);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 100;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.theme-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ── Hero Card ───────────────────────────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 2.5rem;
+  background-color: var(--card-bg);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 40px var(--shadow);
+  max-width: 480px;
+  width: calc(100% - 2rem);
+  gap: 0;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ── Avatar ──────────────────────────────────────────────────── */
+.avatar {
+  width: 11rem;
+  height: 11rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--avatar-ring);
+  box-shadow: 0 0 0 6px var(--accent-glow);
+  margin-bottom: 1.5rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ── Typography ──────────────────────────────────────────────── */
+h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--subtext);
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+.subtitle strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.subtitle strong a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.subtitle strong a:hover {
+  opacity: 0.8;
+}
+
+/* ── Divider ─────────────────────────────────────────────────── */
+.divider {
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--accent);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+  opacity: 0.6;
+}
+
+/* ── Social Links ────────────────────────────────────────────── */
+.social-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: auto;
+}
+
+.social-links a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.9rem 0.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--toggle-bg);
+  color: var(--icon-fill);
+  text-decoration: none;
+  min-width: 0;
+  transition: background-color 0.2s ease, color 0.2s ease,
+              transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-links a svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.social-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.social-links a:hover {
+  background-color: var(--accent);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+/* ── About Me Card ───────────────────────────────────────────── */
+.about {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2.5rem;
+  background-color: var(--card-bg);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 40px var(--shadow);
+  max-width: 480px;
+  width: calc(100% - 2rem);
+  flex: 1;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.about-bio {
+  font-size: 0.9rem;
+  color: var(--subtext);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.about-bio a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.about-bio a:hover {
+  opacity: 0.8;
+}
+
+.about-bio strong a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+
+.about-bio strong a:hover {
+  opacity: 0.8;
+}
+
+.about .divider {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Skill Tags ──────────────────────────────────────────────── */
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--toggle-bg);
+  color: var(--subtext);
+  letter-spacing: 0.01em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tag:hover {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .page-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+
+  .about {
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero, .about {
+    padding: 2.25rem 1.75rem;
+    border-radius: 1.25rem;
+  }
+
+  .avatar {
+    width: 9rem;
+    height: 9rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .social-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .social-links a:hover {
+    transform: none;
+  }
+}
